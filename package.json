@@ -7,6 +7,9 @@
   "author": "Vladimir Kharlampidi",
   "scripts": {
     "build": "cross-env NODE_ENV=production node scripts/build",
+    "/*============ Better React Kitchen Sink ============*/": "============",
+    "better-react": "cross-env NODE_ENV=development vite ./kitchen-sink/better-react",
+    "better-build-react-ks": "cross-env NODE_ENV=production vite build ./kitchen-sink/better-react",
     "/*============ React Kitchen Sink ============*/": "============",
     "react": "cross-env NODE_ENV=development vite ./kitchen-sink/react",
     "build-react-ks": "cross-env NODE_ENV=production vite build ./kitchen-sink/react",
@@ -67,7 +70,15 @@
     "tailwindcss": "^3.4.10",
     "vite": "^5.4.2",
     "vue": "^3.4.38",
-    "vue-router": "^4.4.3"
+    "vue-router": "^4.4.3",
+    "better-react": "file:.yalc/better-react",
+    "better-react-dom": "file:.yalc/better-react-dom",
+    "better-react-dom-helper": "file:.yalc/better-react-dom-helper",
+    "better-react-helper": "file:.yalc/better-react-helper",
+    "better-react-icons": "file:.yalc/better-react-icons",
+    "wy-dom-helper": "file:.yalc/wy-dom-helper",
+    "wy-helper": "file:.yalc/wy-helper",
+    "motion": "^10.18.0"
   },
   "dependencies": {
     "konsta": "file:src"

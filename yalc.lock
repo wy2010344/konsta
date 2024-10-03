@@ -1,0 +1,33 @@
+{
+  "version": "v1",
+  "packages": {
+    "wy-helper": {
+      "signature": "b0b447b27d182ef4aeb0f97680df73ef",
+      "file": true
+    },
+    "wy-dom-helper": {
+      "signature": "d80d9d303f7ce92702ba96c1a1bb0abf",
+      "file": true
+    },
+    "better-react": {
+      "signature": "118f132b74ec91ad993055734ebb595f",
+      "file": true
+    },
+    "better-react-helper": {
+      "signature": "189f766662113082b879e6495a81f079",
+      "file": true
+    },
+    "better-react-dom": {
+      "signature": "2fd95b7bf937b41d9a5e56a49129dede",
+      "file": true
+    },
+    "better-react-dom-helper": {
+      "signature": "981ae0f317e6156b1c117beccce1b08f",
+      "file": true
+    },
+    "better-react-icons": {
+      "signature": "a500d7f90dfb328d022d3fc14f04816a",
+      "file": true
+    }
+  }
+}

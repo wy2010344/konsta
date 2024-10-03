@@ -13,6 +13,8 @@ module.exports = konstaConfig({
     },
   },
   content: [
+    './kitchen-sink/better-react/components/*.{js,ts}',
+    './kitchen-sink/better-react/pages/*.{js,ts}',
     './kitchen-sink/react/components/*.{js,jsx}',
     './kitchen-sink/react/pages/*.{js,jsx}',
     './kitchen-sink/svelte/components/*.{js,jsx}',
