@@ -4,11 +4,11 @@ import { useDarkClasses } from '../shared/use-dark-classes.js';
 import { ToolbarClasses } from '../../shared/classes/ToolbarClasses.js';
 import { ToolbarColors } from '../../shared/colors/ToolbarColors.js';
 import { useEffect, useRef, useState } from 'better-react-helper';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { dom, TextOrFunNode } from 'better-react-dom';
 
 export type ToolbarProps = {
-  render?: RenderCache<'div'> | undefined;
+  render?: RenderCache<'div'>;
   className: string;
   colors?: any;
   translucent?: boolean | undefined;
@@ -25,7 +25,7 @@ export type ToolbarProps = {
 };
 export function renderToolbar(props: ToolbarProps) {
   const {
-    render = renderOrOut('div'),
+    render = renderDomDefault,
     className,
     colors: colorsProp,
     translucent = true,
@@ -95,6 +95,7 @@ export function renderToolbar(props: ToolbarProps) {
   }, [children]);
 
   return render(
+    'div',
     {
       className: c.base,
     },

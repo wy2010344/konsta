@@ -6,13 +6,13 @@ import { useDarkClasses } from '../shared/use-dark-classes.js';
 import { LinkClasses } from '../../shared/classes/LinkClasses.js';
 import { LinkColors } from '../../shared/colors/LinkColors.js';
 import { useRef } from 'better-react-helper';
-import { RenderACache, renderAOrOut, RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderACache, renderADomDefault, RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { renderFunOrText, TextOrFunNode } from 'better-react-dom';
 import { EmptyFun } from 'wy-helper';
 
 export function renderLink(props: {
   navbar?: any;
-  render?: RenderACache;
+  render?: RenderACache<"a">;
   className?: string;
   colors?: Record<string, any>;
   toolbar?: any;
@@ -24,7 +24,7 @@ export function renderLink(props: {
   iconOnly?: boolean
 }) {
   const {
-    render: renderOut = renderAOrOut('a'),
+    render = renderADomDefault,
     className,
     colors: colorsProp,
 
@@ -81,12 +81,13 @@ export function renderLink(props: {
     className
   );
 
-  const rippleEl = renderOut(
+  const rippleEl = render(
+    "a",
     {
       className: classes,
-      tabIndex: '0',
+      tabIndex: 0,
       role: 'link',
-    } as any
+    }
   );
   useTouchRippleEl(rippleEl, needsTouchRipple);
   return rippleEl

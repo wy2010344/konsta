@@ -7,12 +7,12 @@ import { NavbarColors } from '../../shared/colors/NavbarColors.js';
 import { useEffect, useRef } from 'better-react-helper';
 import { dom, renderFunOrText, TextOrFunNode } from 'better-react-dom';
 import { EmptyFun } from 'wy-helper';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 
 
 
 export function renderNavbar(props: {
-  render?: RenderCache;
+  render?: RenderCache<"div">;
 
   className?: string
 
@@ -60,7 +60,7 @@ export function renderNavbar(props: {
   }
 }) {
   const {
-    render: renderOut = renderOrOut("div"),
+    render: renderOut = renderDomDefault,
     className,
 
     bgClassName = '',
@@ -101,12 +101,8 @@ export function renderNavbar(props: {
     subnavbar,
     ios,
     material,
-    children,
-    ...rest
+    children
   } = props
-
-
-  const elRef = useRef<HTMLDivElement | undefined>(undefined);
   const titleContainerHeight = useRef(0);
   const bgElRef = useRef<HTMLDivElement | undefined>(undefined);
   const innerElRef = useRef<HTMLDivElement | undefined>(undefined);
@@ -163,7 +159,7 @@ export function renderNavbar(props: {
 
   const getScrollEl = () => {
     if (typeof scrollEl === 'undefined') {
-      return elRef.current && elRef.current.parentNode;
+      return el.parentNode;
     }
     return scrollEl.current || scrollEl;
   };
@@ -235,7 +231,7 @@ export function renderNavbar(props: {
     className
   );
 
-  const el = renderOut({
+  const el = renderOut("div", {
     className: c.base
   }, () => {
     bgElRef.current = dom.div({ className: c.bg }).render()

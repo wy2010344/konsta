@@ -1,16 +1,16 @@
 import { useTheme } from '../shared/use-theme.js';
 import { useThemeClasses } from '../shared/use-theme-classes.js';
-import BackIcon from './icons/BackIcon';
-import { renderLink } from './Link';
+import BackIcon from './icons/BackIcon.js';
+import { renderLink } from './Link.js';
 import { NavbarBackLinkClasses } from '../../shared/classes/NavbarBackLinkClasses.js';
 import { dom, renderFunOrText, TextOrFunNode } from 'better-react-dom';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { EmptyFun } from 'wy-helper';
 
 export function renderNavbarBackLink(props: {
-  render?: RenderCache<'a'> | undefined;
+  render?: RenderCache<'a'>;
   className?: string;
-  text?: 'Back' | undefined;
+  text?: string;
   showText?: 'auto' | boolean;
   ios?: any;
   material?: any;
@@ -18,7 +18,7 @@ export function renderNavbarBackLink(props: {
   children?: TextOrFunNode;
 }) {
   const {
-    render = renderOrOut('a'),
+    render = renderDomDefault,
     className,
 
     text = 'Back',
@@ -43,9 +43,9 @@ export function renderNavbarBackLink(props: {
   const c = themeClasses(NavbarBackLinkClasses(), className);
 
   renderLink({
-    render(props) {
+    render(type, props) {
       props.onClick = onClick;
-      return render(props, () => {
+      return render(type, props, () => {
         dom
           .span({
             className: c.icon,

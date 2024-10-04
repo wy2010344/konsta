@@ -1,5 +1,5 @@
 import { dom } from "better-react-dom";
-import { renderLink, renderList, renderListItem, renderNavbar, renderNavbarBackLink, renderTabbar, renderTabbarLink, usePage } from "konsta/better-react";
+import { getADomDefault, renderLink, renderList, renderListItem, renderNavbar, renderNavbarBackLink, renderTabbar, renderTabbarLink, usePage } from "konsta/better-react";
 import { renderIcon } from "konsta/better-react/components/Icon";
 import { MdPerson, MdEmail, MdToday, MdFileUpload } from 'better-react-icons/md';
 import { F7CloudUploadFill, SfCalendar, SfEnvelopeFill, SfPersonCircleFill } from 'better-react-icons/f7';
@@ -28,8 +28,8 @@ export default function () {
         renderLink({
           navbar: true,
           iconOnly: true,
-          render(props) {
-            return dom.a(props).render(() => {
+          render(type, props) {
+            return getADomDefault(type, props).render(() => {
               return renderIcon({
                 ios() {
                   SfPersonCircleFill({

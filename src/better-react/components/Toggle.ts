@@ -5,10 +5,10 @@ import { useThemeClasses } from '../shared/use-theme-classes.js';
 import { useTheme } from '../shared/use-theme.js';
 import { useTouchRipple } from '../shared/use-touch-ripple.js';
 import { dom, renderFunOrText, TextOrFunNode } from 'better-react-dom';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { useEffect, useRef } from 'better-react-helper';
 export function renderToggle(props: {
-  render?: RenderCache;
+  render?: RenderCache<"label">;
   className?: string;
   colors?: Record<string, any>;
   checked?: boolean;
@@ -24,7 +24,7 @@ export function renderToggle(props: {
   defaultChecked?: boolean;
 }) {
   const {
-    render: renderOut = renderOrOut('label'),
+    render: renderOut = renderDomDefault,
     className,
     colors: colorsProp,
 
@@ -60,6 +60,7 @@ export function renderToggle(props: {
   );
 
   const el = renderOut(
+    "label",
     {
       className: c.base[state],
     },

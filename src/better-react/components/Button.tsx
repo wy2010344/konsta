@@ -9,10 +9,10 @@ import { useThemeClasses } from '../shared/use-theme-classes.js';
 import { useDarkClasses } from '../shared/use-dark-classes.js';
 import { ButtonClasses } from '../../shared/classes/ButtonClasses.js';
 import { ButtonColors } from '../../shared/colors/ButtonColors.js';
-import { RenderACache, renderAOrOut } from '../konsta-better-react.js';
+import { RenderACache, renderADomDefault } from '../konsta-better-react.js';
 
 export function renderButton(props: {
-  render?: RenderACache;
+  render?: RenderACache<'button'>;
   className?: string;
   colors?: any;
   ios?: any;
@@ -46,7 +46,7 @@ export function renderButton(props: {
   touchRipple?: any;
 }) {
   let {
-    render = renderAOrOut('button'),
+    render = renderADomDefault,
     className,
     colors: colorsProp,
 
@@ -139,7 +139,7 @@ export function renderButton(props: {
 
     className
   );
-  const rippleEL = render({
+  const rippleEL = render('button', {
     className: classes,
     disabled,
     role: 'button',

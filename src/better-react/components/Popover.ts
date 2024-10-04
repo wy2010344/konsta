@@ -7,10 +7,10 @@ import { PopoverClasses } from '../../shared/classes/PopoverClasses.js';
 import { PopoverColors } from '../../shared/colors/PopoverColors.js';
 import { useEffect, useRef, useState } from 'better-react-helper';
 import { dom, TextOrFunNode } from 'better-react-dom';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 
 export function renderPopover(props: {
-  render?: RenderCache;
+  render?: RenderCache<"div">;
   className?: string;
   angle?: true | undefined;
   angleClassName?: '' | undefined;
@@ -31,7 +31,7 @@ export function renderPopover(props: {
   style?: {} | undefined;
 }) {
   const {
-    render: renderOut = renderOrOut('div'),
+    render: renderOut = renderDomDefault,
     className,
     angle = true,
     angleClassName = '',
@@ -174,6 +174,7 @@ export function renderPopover(props: {
   }
 
   elRef.current = renderOut(
+    "div",
     {
       className: classes,
       style: popoverStyle,

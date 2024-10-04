@@ -1,7 +1,7 @@
 import { effectLayout } from "better-react";
 import { dom } from "better-react-dom";
 import { useChange, useEffect } from "better-react-helper";
-import { renderLink, renderList, renderListItem, renderNavbar, renderPopover, renderRadio, renderToggle, useBlockTitle, usePage } from "konsta/better-react";
+import { getADomDefault, renderDomDefault, renderLink, renderList, renderListItem, renderNavbar, renderPopover, renderRadio, renderToggle, useBlockTitle, usePage } from "konsta/better-react";
 import { renderPage, ThemeContext } from "../util";
 import { RouterContext } from "better-react-dom-helper";
 import renderDemoIcon from "../components/renderDemoIcon";
@@ -46,7 +46,7 @@ export default function Home() {
       inset: true,
       children() {
         renderListItem({
-          label: true,
+          type: "label",
           title: "iOS Theme",
           media() {
             renderRadio({
@@ -58,7 +58,7 @@ export default function Home() {
           }
         })
         renderListItem({
-          label: true,
+          type: "label",
           title: "Material Theme",
           media() {
             renderRadio({
@@ -78,7 +78,7 @@ export default function Home() {
       children() {
         renderListItem({
           title: "Dark Mode",
-          label: true,
+          type: "label",
           after() {
             renderToggle({
               onChange: toggleDarkMode,
@@ -88,14 +88,12 @@ export default function Home() {
         })
         renderListItem({
           title: "Color Theme",
-          link: true,
-          render(c, render) {
-            dom.li({
-              className: c,
-              onClick() {
-                setColorPickerOpened(true)
-              }
-            }).render(render)
+          type: "label",
+          render(type, c, render) {
+            c.onClick = () => {
+              setColorPickerOpened(true)
+            }
+            return renderDomDefault(type, c, render)
           },
           after() {
             dom.div({
@@ -120,11 +118,11 @@ export default function Home() {
           renderLink({
             touchRipple: true,
             className: "overflow-hidden h-12",
-            render(props) {
+            render(type, props) {
               props.onClick = () => {
                 setColorTheme('')
               }
-              return dom.a(props).render(() => {
+              return getADomDefault(type, props).render(() => {
                 dom.span({
                   className: "bg-brand-primary w-6 h-6 rounded-full"
                 }).render()
@@ -134,11 +132,11 @@ export default function Home() {
           renderLink({
             touchRipple: true,
             className: "overflow-hidden h-12",
-            render(props) {
+            render(type, props) {
               props.onClick = () => {
                 setColorTheme('k-color-brand-red')
               }
-              return dom.a(props).render(() => {
+              return getADomDefault(type, props).render(() => {
                 dom.span({
                   className: "bg-brand-red w-6 h-6 rounded-full"
                 }).render()
@@ -148,12 +146,12 @@ export default function Home() {
           renderLink({
             touchRipple: true,
             className: "overflow-hidden h-12",
-            render(props) {
+            render(type, props) {
 
               props.onClick = () => {
                 setColorTheme('k-color-brand-green')
               }
-              return dom.a(props).render(() => {
+              return getADomDefault(type, props).render(() => {
                 dom.span({
                   className: "bg-brand-green w-6 h-6 rounded-full"
                 }).render()
@@ -163,12 +161,12 @@ export default function Home() {
           renderLink({
             touchRipple: true,
             className: "overflow-hidden h-12",
-            render(props) {
+            render(type, props) {
 
               props.onClick = () => {
                 setColorTheme('k-color-brand-yellow')
               }
-              return dom.a(props).render(() => {
+              return getADomDefault(type, props).render(() => {
                 dom.span({
                   className: "bg-brand-yellow w-6 h-6 rounded-full"
                 }).render()
@@ -178,11 +176,11 @@ export default function Home() {
           renderLink({
             touchRipple: true,
             className: "overflow-hidden h-12",
-            render(props) {
+            render(type, props) {
               props.onClick = () => {
                 setColorTheme('k-color-brand-purple')
               }
-              return dom.a(props).render(() => {
+              return getADomDefault(type, props).render(() => {
                 dom.span({
                   className: "bg-brand-purple w-6 h-6 rounded-full"
                 }).render()
@@ -205,14 +203,12 @@ export default function Home() {
         componentsRoutes.forEach(cr => {
           renderListItem({
             title: cr.href,
-            link: true,
-            linkComponent(props, render) {
-              return dom.a({
-                ...props,
-                onClick() {
-                  rHistory.push(cr.href)
-                }
-              }).render(render)
+            type: "link",
+            renderChild(type, props, render) {
+              props.onClick = () => {
+                rHistory.push(cr.href)
+              }
+              return renderDomDefault(type, props, render)
             },
             media: renderDemoIcon
           })

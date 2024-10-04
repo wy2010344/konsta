@@ -4,11 +4,11 @@ import { useDarkClasses } from '../shared/use-dark-classes.js';
 import { useThemeClasses } from '../shared/use-theme-classes.js';
 
 import { renderLink } from './Link';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { dom, renderFunOrText, TextOrFunNode } from 'better-react-dom';
 
 export function renderTabbarLink(props: {
-  render?: RenderCache;
+  render?: RenderCache<'a'>;
   className?: string;
   active?: boolean;
   ios?: boolean;
@@ -19,7 +19,7 @@ export function renderTabbarLink(props: {
   children?: TextOrFunNode;
 }) {
   const {
-    render = renderOrOut('a'),
+    render = renderDomDefault,
     className,
     active,
 
@@ -48,8 +48,8 @@ export function renderTabbarLink(props: {
     tabbarActive: active,
     className,
     ...rest,
-    render(props) {
-      return render(props, () => {
+    render(type, props) {
+      return render(type, props, () => {
         return dom
           .span({
             className: c.content,

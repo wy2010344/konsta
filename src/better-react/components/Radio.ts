@@ -5,13 +5,13 @@ import CheckboxIcon from './icons/CheckboxIcon.js';
 import { useDarkClasses } from '../shared/use-dark-classes.js';
 import { RadioClasses } from '../../shared/classes/RadioClasses.js';
 import { RadioColors } from '../../shared/colors/RadioColors.js';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { dom, renderFunOrText, TextOrFunNode } from 'better-react-dom';
 import { EmptyFun } from 'wy-helper';
 import { renderIf, useEffect, useRef } from 'better-react-helper';
 
 export function renderRadio(props: {
-  render?: RenderCache;
+  render?: RenderCache<"label">;
   className?: string;
   colors?: Record<string, any>;
 
@@ -31,7 +31,7 @@ export function renderRadio(props: {
   children?: TextOrFunNode;
 }) {
   const {
-    render: renderOut = renderOrOut('label'),
+    render: renderOut = renderDomDefault,
     className,
     colors: colorsProp,
 
@@ -66,7 +66,7 @@ export function renderRadio(props: {
     className
   );
 
-  const el = renderOut({ className: c.base }, () => {
+  const el = renderOut("label", { className: c.base }, () => {
     const check = dom
       .input({
         type: 'radio',

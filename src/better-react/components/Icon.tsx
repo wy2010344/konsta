@@ -2,12 +2,12 @@ import { useTheme } from '../shared/use-theme.js';
 import { useThemeClasses } from '../shared/use-theme-classes.js';
 import { useBadge } from './Badge';
 import { IconClasses } from '../../shared/classes/IconClasses.js';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { dom, renderFunOrText, TextOrFunNode } from 'better-react-dom';
 import { EmptyFun } from 'wy-helper';
 
 export function renderIcon(props: {
-  render?: RenderCache<'i'> | undefined;
+  render?: RenderCache<'i'>;
   className?: string;
   ios: EmptyFun;
   material: EmptyFun;
@@ -16,7 +16,7 @@ export function renderIcon(props: {
   children?: TextOrFunNode;
 }) {
   const {
-    render = renderOrOut('i'),
+    render = renderDomDefault,
     className,
 
     ios,
@@ -34,6 +34,7 @@ export function renderIcon(props: {
   const c = themeClasses(IconClasses(props, className), className);
 
   return render(
+    'i',
     {
       className: c.base,
     },

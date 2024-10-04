@@ -5,13 +5,14 @@ import { useThemeClasses } from '../shared/use-theme-classes.js';
 import { useTheme } from '../shared/use-theme.js';
 import { ListColors } from '../../shared/colors/ListColors.js';
 import { ListDividersContext } from '../shared/ListDividersContext';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { dom, TextOrFunNode } from 'better-react-dom';
 import { emptyObject } from 'wy-helper';
 import { renderStateHolder } from 'better-react';
 
-export function renderList(props: {
-  render?: RenderCache
+
+export type ListProps = {
+  render?: RenderCache<"div">
   className?: string
 
   colors?: Record<string, any>,
@@ -38,9 +39,10 @@ export function renderList(props: {
 
   // Children
   children?: TextOrFunNode,
-} = emptyObject) {
+}
+export function renderList(props: ListProps = emptyObject) {
   const {
-    render = renderOrOut("ul"),
+    render = renderDomDefault,
     className,
     colors: colorsProp,
 
@@ -128,7 +130,7 @@ export function renderList(props: {
   let node
   renderStateHolder(() => {
     ListDividersContext.useProvider(hasDividers)
-    node = render({ className: classes }, () => {
+    node = render("div", { className: classes }, () => {
       dom.ul({ className: c.ul }).renderOrText(children)
     })
   })

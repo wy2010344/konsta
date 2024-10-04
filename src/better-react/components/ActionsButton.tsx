@@ -8,10 +8,14 @@ import { useThemeClasses } from '../shared/use-theme-classes.js';
 import { useDarkClasses } from '../shared/use-dark-classes.js';
 import { ActionsButtonClasses } from '../../shared/classes/ActionsButtonClasses.js';
 import { ActionsButtonColors } from '../../shared/colors/ActionsButtonColors.js';
-import { RenderACache, renderAOrOut } from '../konsta-better-react.js';
+import {
+  RenderACache,
+  renderADomDefault,
+  renderDomDefault,
+} from '../konsta-better-react.js';
 
 export function renderActionsButton(props: {
-  render?: RenderACache;
+  render?: RenderACache<'button'>;
   className?: string;
   colors?: any;
   ios?: any;
@@ -26,7 +30,7 @@ export function renderActionsButton(props: {
   dividers?: any;
 }) {
   let {
-    render = renderAOrOut('button'),
+    render = renderADomDefault,
     className,
     colors: colorsProp,
 
@@ -76,7 +80,7 @@ export function renderActionsButton(props: {
     className
   );
 
-  const rippleEl = render({
+  const rippleEl = render('button', {
     role: 'button',
     tabIndex: 0,
     className: c.base,

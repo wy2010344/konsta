@@ -1,6 +1,6 @@
 import { dom } from "better-react-dom";
 import { renderIf, useChange } from "better-react-helper";
-import { renderActions, renderActionsButton, renderButton, renderNavbar, renderNavbarBackLink, useActionsGruop, useActionsLabel, useBlock, useBlockTitle, usePage } from "konsta/better-react";
+import { getADomDefault, renderActions, renderActionsButton, renderButton, renderNavbar, renderNavbarBackLink, useActionsGruop, useActionsLabel, useBlock, useBlockTitle, usePage } from "konsta/better-react";
 import { renderPage } from "../util";
 
 export default function () {
@@ -52,24 +52,19 @@ export default function () {
       })
     }).render(() => {
       renderButton({
-        render(props) {
-          return dom.button({
-            ...props,
-            onClick() {
-              setActionsOneOpened(true)
-            }
-          }).renderText`One group`
+        render(type, props) {
+          props.onClick = () => {
+            setActionsOneOpened(true)
+          }
+          return getADomDefault(type, props).renderText`One group`
         }
       })
       renderButton({
-        render(props) {
-          return dom.button({
-            ...props,
-            onClick() {
-              setActionsTwoOpened(true)
-
-            }
-          }).renderText`Two group`
+        render(type, props) {
+          props.onClick = () => {
+            setActionsOneOpened(true)
+          }
+          return getADomDefault(type, props).renderText`Two group`
         }
       })
     })
@@ -90,27 +85,27 @@ export default function () {
         }).renderText`Do something`
         renderActionsButton({
           bold: true,
-          render(props) {
+          render(type, props) {
             props.onClick = () => {
               setActionsOneOpened(false)
             }
-            return dom.button(props).renderText`Button 1`
+            return getADomDefault(type, props).renderText`Button 1`
           }
         })
         renderActionsButton({
-          render(props) {
+          render(type, props) {
             props.onClick = () => {
               setActionsOneOpened(false)
             }
-            return dom.button(props).renderText`Button 2`
+            return getADomDefault(type, props).renderText`Button 2`
           }
         })
         renderActionsButton({
-          render(props) {
+          render(type, props) {
             props.onClick = () => {
               setActionsOneOpened(false)
             }
-            return dom.button(props).renderText`cancel`
+            return getADomDefault(type, props).renderText`cancel`
           }
         })
       })
@@ -132,27 +127,27 @@ export default function () {
         }).renderText`Do something`
         renderActionsButton({
           bold: true,
-          render(props) {
+          render(type, props) {
             props.onClick = () => {
               setActionsTwoOpened(false)
             }
-            return dom.button(props).renderText`Button 1`
+            return getADomDefault(type, props).renderText`Button 1`
           }
         })
         renderActionsButton({
-          render(props) {
+          render(type, props) {
             props.onClick = () => {
               setActionsTwoOpened(false)
             }
-            return dom.button(props).renderText`Button 2`
+            return getADomDefault(type, props).renderText`Button 2`
           }
         })
         renderActionsButton({
-          render(props) {
+          render(type, props) {
             props.onClick = () => {
               setActionsTwoOpened(false)
             }
-            return dom.button(props).renderText`cancel`
+            return getADomDefault(type, props).renderText`cancel`
           }
         })
       })

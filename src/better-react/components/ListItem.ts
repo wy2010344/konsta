@@ -7,14 +7,13 @@ import { useDarkClasses } from '../shared/use-dark-classes.js';
 import { ListItemClasses } from '../../shared/classes/ListItemClasses.js';
 import { ListItemColors } from '../../shared/colors/ListItemColors.js';
 import { useListDividers } from '../shared/use-list-dividers.js';
-import { RenderCache, renderOrOut } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { dom, renderFunOrText, TextOrFunNode } from 'better-react-dom';
-import { useRef } from 'better-react-helper';
-import { DomElementType } from 'wy-dom-helper';
 import { EmptyFun } from 'wy-helper';
+import { DomAttributeSO, DomElementType } from 'wy-dom-helper';
 
-export function renderListItem(props: {
-  render?: RenderCache;
+export type ListItemProps = {
+  render?: RenderCache<'li'>;
 
   colors?: Record<string, any>;
 
@@ -40,22 +39,9 @@ export function renderListItem(props: {
   menuListItem?: TextOrFunNode;
   menuListItemActive?: TextOrFunNode;
 
-  linkComponent?: RenderCache;
-
   groupTitle?: TextOrFunNode;
 
   strongTitle?: string | boolean;
-  label?: boolean;
-  chevron?: string;
-  chevronIos?: string;
-  chevronMaterial?: string;
-  chevronIcon?: EmptyFun;
-  href?: string | boolean;
-  target?: string;
-
-  link?: boolean;
-
-  linkProps?: any;
   dividers?: boolean;
   ios?: boolean;
   material?: boolean;
@@ -63,9 +49,32 @@ export function renderListItem(props: {
   touchRipple?: boolean;
 
   children?: TextOrFunNode;
-}) {
+} & ({
+  type?: never
+  renderChild?: RenderCache<"div">
+  chevron?: never;
+  chevronIos?: never;
+  chevronMaterial?: never;
+  chevronIcon?: never;
+} | {
+  type: "label"
+  renderChild?: RenderCache<"label">
+  chevron?: never;
+  chevronIos?: never;
+  chevronMaterial?: never;
+  chevronIcon?: never;
+} | {
+  type: "link"
+  renderChild?: RenderCache<"a">
+  chevron?: string;
+  chevronIos?: string;
+  chevronMaterial?: boolean;
+  chevronIcon?: EmptyFun;
+})
+export function renderListItem(props: ListItemProps) {
   const {
-    render = renderOrOut('li'),
+    render = renderDomDefault,
+    renderChild = renderDomDefault,
     colors: colorsProp,
     className,
     mediaClassName = '',
@@ -95,20 +104,12 @@ export function renderListItem(props: {
     // Title
     strongTitle = 'auto',
 
-    // Label props
-    label,
+    type,
 
-    // Link props
     chevron = undefined,
     chevronIos = true,
     chevronMaterial = true,
     chevronIcon,
-    href,
-    target,
-
-    link,
-    linkComponent = renderOrOut("a"),
-    linkProps = {},
 
     dividers: dividersProp,
 
@@ -127,12 +128,6 @@ export function renderListItem(props: {
   const themeClasses = useThemeClasses({ ios, material });
   const dark = useDarkClasses();
 
-  const hasChevron =
-    typeof chevron === 'undefined'
-      ? theme === 'ios'
-        ? chevronIos
-        : chevronMaterial
-      : chevron;
 
   const colors = ListItemColors(colorsProp, dark);
 
@@ -148,25 +143,17 @@ export function renderListItem(props: {
     }${theme === 'ios' ? 'Ios' : 'Material'}`
     ];
 
-  const isLink = !!href || href === '' || menuListItem || link;
-  const isLabel = !!label;
+  const isLink = type == 'link' || menuListItem;
+  const isLabel = type == 'label'
 
   const needsTouchRipple =
     theme === 'material' && (isLabel || isLink) && touchRipple;
 
-  const hrefComputed =
-    href === true || href === false || typeof href === 'undefined'
-      ? undefined
-      : href || '';
   const ItemContentComponent = isLink
-    ? linkComponent
+    ? 'a'
     : isLabel
-      ? renderOrOut('label')
-      : renderOrOut('div');
-  const linkPropsComputed = isLink
-    ? { href: hrefComputed, target, ...linkProps }
-    : {};
-
+      ? 'label'
+      : 'div';
   const isMediaItem = title && (subtitle || text);
   const autoStrongTitle = strongTitle === 'auto' && isMediaItem;
   const c = themeClasses(
@@ -206,8 +193,10 @@ export function renderListItem(props: {
       ? c.title.strong
       : c.title.default;
 
+
+  const renderComponent = 'li'
   if (groupTitle) {
-    return render({
+    return render(renderComponent, {
       className: cls(c.groupTitle, className)
     }, () => {
       renderFunOrText(title);
@@ -215,13 +204,12 @@ export function renderListItem(props: {
     });
   }
 
-  return render({
+  return render(renderComponent, {
     className: c.base
   }, () => {
-    const rippleEl = ItemContentComponent({
+    const rippleEl = (renderChild as any)(ItemContentComponent as 'a', {
       className: itemContentClasses,
-      ...linkPropsComputed,
-    }, () => {
+    } as any, () => {
       if (media) {
         dom.div({ className: c.media }).renderOrText(media);
       }
@@ -241,6 +229,13 @@ export function renderListItem(props: {
             if (after) {
               dom.div({ className: c.after }).renderOrText(after);
             }
+
+            const hasChevron =
+              typeof chevron === 'undefined'
+                ? theme === 'ios'
+                  ? chevronIos
+                  : chevronMaterial
+                : chevron;
             if (isLink && hasChevron && !menuListItem) {
               if (chevronIcon) {
                 chevronIcon();

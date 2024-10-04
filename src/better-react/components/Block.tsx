@@ -16,10 +16,10 @@ export function useBlock(
     insetIos?: string;
     insetMaterial?: string;
     strong?: boolean;
-    strongIos?: string;
+    strongIos?: boolean;
     strongMaterial?: string;
-    outline?: string;
-    outlineIos?: string;
+    outline?: boolean;
+    outlineIos?: boolean;
     outlineMaterial?: string;
     ios?: boolean;
     material?: boolean;
