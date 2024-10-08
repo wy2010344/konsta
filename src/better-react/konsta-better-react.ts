@@ -26,5 +26,6 @@ export * from './components/TabbarLink'
 export * from './components/MenuList'
 export * from './components/MenuListItem'
 export * from './components/Checkbox'
-
+export * from './components/Icon'
 export * from './components/Searchbar'
+export * from './components/ListInput'

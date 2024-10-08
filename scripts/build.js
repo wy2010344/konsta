@@ -7,7 +7,8 @@ const buildSvelte = require('./build-svelte.js');
 const buildSvelteTypes = require('./build-svelte-types.js');
 const buildShared = require('./build-shared.js');
 const buildMdColors = require('./build-md-colors.js');
-
+const buildBetterReact = require('./build-better-react.js');
+const { promise: exec } = require('exec-sh');
 const formats = ['esm', 'cjs'];
 
 (async () => {
@@ -23,6 +24,12 @@ const formats = ['esm', 'cjs'];
     buildReactTypes(),
     buildVueTypes(),
     buildSvelteTypes(),
+    ...formats.map((format) => buildBetterReact(format, outputDir)),
+    async () => {
+      await exec(
+        `cross-env tsc --declaration --emitDeclarationOnly --outDir package/better-react/types src/better-react/konsta-better-react.ts`
+      );
+    },
   ]).catch((err) => {
     // eslint-disable-next-line
     console.error(err);

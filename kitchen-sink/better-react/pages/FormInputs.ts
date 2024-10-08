@@ -5,8 +5,7 @@ import { renderIcon } from "konsta/better-react/components/Icon";
 import { MdPerson, MdEmail, MdToday, MdFileUpload } from 'better-react-icons/md';
 import { F7CloudUploadFill, SfCalendar, SfEnvelopeFill, SfPersonCircleFill } from 'better-react-icons/f7';
 import renderDemoIcon from "../components/renderDemoIcon";
-import { useBadge } from "konsta/better-react/components/Badge";
-import { renderListInput } from "konsta/better-react/components/ListInput";
+import { renderListInput } from "konsta/better-react";
 import { emptyObject } from "wy-helper";
 import { renderPage } from "../util";
 import { renderInput } from "better-react-dom-helper";
@@ -75,14 +74,19 @@ export default function () {
       children() {
         renderListInput({
           label: "Name",
-          type: "text",
-          placeholder: "Your name",
           info: "Basic string checking",
-          value: name.value,
-          onInput: onNameChange,
           media: renderDemoIcon,
           error: name.changed && !name.value.trim()
-            ? 'Please specify your name' : ''
+            ? 'Please specify your name' : '',
+
+          renderInput(arg) {
+            renderInput("input", {
+              ...arg,
+              value: name.value,
+              onValueChange: onNameChange,
+              placeholder: "Your name",
+            })
+          },
         })
       }
     })
@@ -97,14 +101,231 @@ export default function () {
       children() {
         renderListInput({
           label: "TV Show",
-          type: "text",
-          placeholder: "Your favorite TV show",
           info: "Type something to see clear button",
-          value: demoValue,
           clearButton: demoValue.length > 0,
           media: renderDemoIcon,
-          onInput: onDemoValueChange,
-          onClear: onDemoValueClear
+          onClear: onDemoValueClear,
+          renderInput(arg) {
+            renderInput("input", {
+              ...arg,
+              value: demoValue,
+              onValueChange: onDemoValueChange,
+              placeholder: "Your favorite TV show",
+            })
+          },
+        })
+      }
+    })
+
+
+    dom.div({
+      className: useBlockTitle()
+    }).renderText`Icon + Input`
+
+
+    renderList({
+      strongIos: true,
+      insetIos: true,
+      children() {
+        renderListInput({
+          media: renderDemoIcon,
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "text",
+              placeholder: "Your nane",
+            }).render()
+          },
+        })
+        renderListInput({
+          media: renderDemoIcon,
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "password",
+              placeholder: "Your password",
+            }).render()
+          },
+        })
+
+        renderListInput({
+          media: renderDemoIcon,
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "email",
+              placeholder: "Your e-mail",
+            }).render()
+          },
+        })
+
+        renderListInput({
+          media: renderDemoIcon,
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "url",
+              placeholder: "URL",
+            }).render()
+          },
+        })
+      }
+    })
+
+    dom.div({
+      className: useBlockTitle()
+    }).renderText`Label + Input`
+
+
+    renderList({
+      strongIos: true,
+      insetIos: true,
+      children() {
+        renderListInput({
+          label: "Name",
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "text",
+              placeholder: "Your nane",
+            }).render()
+          },
+        })
+        renderListInput({
+          label: "Password",
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "password",
+              placeholder: "Your password"
+            }).render()
+          },
+        })
+
+        renderListInput({
+          label: "Email",
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "email",
+              placeholder: "Your e-mail"
+            }).render()
+          },
+        })
+
+        renderListInput({
+          label: "URL",
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "url",
+              placeholder: "URL",
+            }).render()
+          },
+        })
+      }
+    })
+
+    dom.div({
+      className: useBlockTitle()
+    }).renderText`Only Inputs`
+
+
+    renderList({
+      strongIos: true,
+      insetIos: true,
+      children() {
+        renderListInput({
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "text",
+              placeholder: "Your nane",
+            }).render()
+          },
+        })
+        renderListInput({
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "password",
+              placeholder: "Your password"
+            }).render()
+          },
+        })
+
+        renderListInput({
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "email",
+              placeholder: "Your e-mail"
+            }).render()
+          },
+        })
+
+        renderListInput({
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "url",
+              placeholder: "URL",
+            }).render()
+          },
+        })
+      }
+    })
+
+    dom.div({
+      className: useBlockTitle()
+    }).renderText`Inputs + Additional Info`
+
+
+    renderList({
+      strongIos: true,
+      insetIos: true,
+      children() {
+        renderListInput({
+          info: "Full name please",
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "text",
+              placeholder: "Your nane",
+            }).render()
+          },
+        })
+        renderListInput({
+          info: "8 characters minimum",
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "password",
+              placeholder: "Your password",
+            }).render()
+          },
+        })
+
+        renderListInput({
+          info: "Your work e-mail address",
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "email",
+              placeholder: "Your e-mail",
+            }).render()
+          },
+        })
+
+        renderListInput({
+          info: "Your website URL",
+          renderInput(arg) {
+            dom.input({
+              ...arg,
+              type: "url",
+              placeholder: "URL",
+            }).render()
+          },
         })
       }
     })
@@ -128,44 +349,69 @@ function renderRow({
         floatingLabel,
         outline,
         label: "Name",
-        type: "text",
-        placeholder: "Your nane",
-        media: renderDemoIcon
+        media: renderDemoIcon,
+        renderInput(arg) {
+          dom.input({
+            ...arg,
+            type: "text",
+            placeholder: "Your nane",
+          }).render()
+        },
       })
       renderListInput({
         floatingLabel,
         outline,
         label: "Password",
-        type: "password",
-        placeholder: "Your password",
-        media: renderDemoIcon
+        media: renderDemoIcon,
+        renderInput(arg) {
+          dom.input({
+            ...arg,
+            type: "password",
+            placeholder: "Your password",
+          }).render()
+        },
       })
 
       renderListInput({
         floatingLabel,
         outline,
         label: "E-mail",
-        type: "email",
-        placeholder: "Your e-mail",
-        media: renderDemoIcon
+        media: renderDemoIcon,
+        renderInput(arg) {
+          dom.input({
+            ...arg,
+            type: "email",
+            placeholder: "Your e-mail",
+          }).render()
+        },
       })
 
       renderListInput({
         floatingLabel,
         outline,
         label: "URL",
-        type: "url",
-        placeholder: "URL",
-        media: renderDemoIcon
+        media: renderDemoIcon,
+        renderInput(arg) {
+          dom.input({
+            ...arg,
+            type: "url",
+            placeholder: "URL",
+          }).render()
+        },
       })
 
       renderListInput({
         floatingLabel,
         outline,
         label: "Phone",
-        type: "tel",
-        placeholder: "Your phone number",
-        media: renderDemoIcon
+        media: renderDemoIcon,
+        renderInput(arg) {
+          dom.input({
+            ...arg,
+            type: "tel",
+            placeholder: "Your phone number",
+          }).render()
+        },
       })
 
       if (floatingLabel) {
@@ -175,34 +421,47 @@ function renderRow({
         floatingLabel,
         outline,
         label: "Gender",
-        type: "select",
+        renderInput(arg) {
+          dom.select({
+            ...arg,
+            placeholder: "Please choose",
+          }).render(() => {
+            dom.option({
+              value: "Male"
+            }).renderText`Male`
+            dom.option({
+              value: "Female"
+            }).renderText`FeMale`
+          })
+        },
         dropdown: true,
-        placeholder: "Please choose",
-        media: renderDemoIcon,
-        children() {
-          dom.option({
-            value: "Male"
-          }).renderText`Male`
-          dom.option({
-            value: "Female"
-          }).renderText`FeMale`
-        }
+        media: renderDemoIcon
       })
       renderListInput({
         floatingLabel,
         outline,
         label: "Birthday",
-        type: "date",
-        placeholder: "Please choose..",
-        media: renderDemoIcon
+        media: renderDemoIcon,
+        renderInput(arg) {
+          dom.input({
+            ...arg,
+            type: "date",
+            placeholder: "Please choose..",
+          }).render()
+        },
       })
 
       renderListInput({
         floatingLabel,
         outline,
         label: "Date time",
-        type: "datetime-local",
-        placeholder: "Please choose..",
+        renderInput(arg) {
+          dom.input({
+            ...arg,
+            type: "datetime-local",
+            placeholder: "Please choose..."
+          }).render()
+        },
         media: renderDemoIcon
       })
 
@@ -210,8 +469,12 @@ function renderRow({
         floatingLabel,
         outline,
         label: "Textarea",
-        type: "textarea",
-        placeholder: "Bio",
+        renderInput(arg) {
+          dom.textarea({
+            ...arg,
+            placeholder: "Bio"
+          }).render()
+        },
         media: renderDemoIcon,
         inputClassName: "!h-20 resize-none"
       })

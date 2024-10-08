@@ -33,6 +33,7 @@ package/**/*.vue
 package/**/**/*.vue
 
 kitchen-sink/react/dist
+kitchen-sink/better-react/dist
 kitchen-sink/vue/dist
 kitchen-sink/svelte/dist
 

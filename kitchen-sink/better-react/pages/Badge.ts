@@ -1,10 +1,10 @@
 import { dom } from "better-react-dom";
 import { getADomDefault, renderLink, renderList, renderListItem, renderNavbar, renderNavbarBackLink, renderTabbar, renderTabbarLink, usePage } from "konsta/better-react";
-import { renderIcon } from "konsta/better-react/components/Icon";
+import { renderIcon } from "konsta/better-react";
 import { MdPerson, MdEmail, MdToday, MdFileUpload } from 'better-react-icons/md';
 import { F7CloudUploadFill, SfCalendar, SfEnvelopeFill, SfPersonCircleFill } from 'better-react-icons/f7';
 import renderDemoIcon from "../components/renderDemoIcon";
-import { useBadge } from "konsta/better-react/components/Badge";
+import { useBadge } from "konsta";
 import { renderPage } from "../util";
 
 export default function () {

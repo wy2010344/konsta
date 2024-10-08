@@ -8,8 +8,6 @@ import { getPathNodes, locationMatch, RootRelativeHistory } from 'wy-helper/rout
 import { emptyArray, getTimeoutPromise } from 'wy-helper';
 import { GlobalContext, PageContext, ThemeContext } from '../util';
 import { componentsRoutes } from '../routes';
-import { ClsWithStyle } from 'wy-dom-helper';
-import { renderStateHolder } from 'better-react';
 export default function renderApp() {
   const [theme, setTheme] = useChange<KonstaTheme>(
     window.location.search.includes('theme=material') ? 'material' : 'ios'
@@ -64,10 +62,7 @@ export default function renderApp() {
 
     renderExitAnimateArray(
       useExitAnimate([arg], v => v.key, {
-        // mode: 'shift',
         mode: action == Action.Pop ? 'pop' : 'shift',
-        // enterIgnore: !action,
-        // exitIgnore: !action
       }),
       row => {
 

@@ -2,6 +2,7 @@ import { renderArray, renderIf, useState } from "better-react-helper";
 import { renderPage } from "../util";
 import { renderList, renderListItem, renderNavbar, renderNavbarBackLink } from "konsta/better-react";
 import { renderSearchbar } from "konsta/better-react/components/Searchbar";
+import { renderInput } from "better-react-dom-helper";
 
 
 
@@ -31,10 +32,6 @@ export default function () {
 
   const isPreview = document.location.href.includes('examplePreview');
   const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
   const handleClear = () => {
     setSearchQuery('');
   };
@@ -62,12 +59,20 @@ export default function () {
       },
       subnavbar() {
         renderSearchbar({
-          onInput: handleSearch,
-          value: searchQuery,
           onClear: handleClear,
           disableButton: true,
           disableButtonText: "Cancel",
-          onDisable: handleDisable
+          onDisable: handleDisable,
+          hasValue: searchQuery,
+          renderInput(a) {
+            return renderInput("input", {
+              ...a,
+              value: searchQuery,
+              onValueChange(v) {
+                setSearchQuery(v)
+              },
+            })
+          },
         })
       }
     })

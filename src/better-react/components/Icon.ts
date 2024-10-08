@@ -3,8 +3,9 @@ import { useThemeClasses } from '../shared/use-theme-classes.js';
 import { useBadge } from './Badge';
 import { IconClasses } from '../../shared/classes/IconClasses.js';
 import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
-import { dom, renderFunOrText, TextOrFunNode } from 'better-react-dom';
+import { dom, renderFunOrText, TextOrFunNode} from 'better-react-dom';
 import { EmptyFun } from 'wy-helper';
+import {renderIf,renderOne } from 'better-react-helper'
 
 export function renderIcon(props: {
   render?: RenderCache<'i'>;
@@ -39,12 +40,14 @@ export function renderIcon(props: {
       className: c.base,
     },
     () => {
-      if (theme == 'ios') {
-        ios();
-      } else {
-        material();
-      }
-      if (typeof badge !== 'undefined' && badge !== null) {
+      renderOne(theme,()=>{
+        if (theme == 'ios') {
+          ios();
+        } else {
+          material();
+        }
+      })
+      renderIf(typeof badge !== 'undefined' && badge !== null,()=>{
         dom
           .span({
             className: useBadge({
@@ -54,7 +57,7 @@ export function renderIcon(props: {
             }),
           })
           .renderOrText(badge);
-      }
+      })
       renderFunOrText(children);
     }
   );

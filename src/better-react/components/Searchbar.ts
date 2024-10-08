@@ -8,7 +8,7 @@ import { useDarkClasses } from '../shared/use-dark-classes.js';
 import DeleteIcon from './icons/DeleteIcon.js';
 import SearchIcon from './icons/SearchIcon.js';
 import BackIcon from './icons/BackIcon.js';
-import { renderDomDefault } from '../konsta-better-react.js';
+import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { dom } from 'better-react-dom';
 import { renderInput } from 'better-react-dom-helper';
 import {
@@ -20,42 +20,41 @@ import {
 } from 'better-react-helper';
 
 export function renderSearchbar(props: {
-  oninput?: (e: any) => void;
-  value: any;
-  onClear: any;
-  disableButton: any;
-  disableButtonText: any;
-  onDisable: any;
-  render?: any;
-  className?: any;
+  // oninput?: (e: any) => void;
+  hasValue?: any;
+  onClear?(): void;
+  disableButton?: boolean;
+  disableButtonText?: string;
+  onDisable?(): void;
+  render?: RenderCache<"div">;
+  // className?: any;
   colors?: any;
-  placeholder?: any;
-  inputId?: any;
-  inputStyle?: any;
-  clearButton?: any;
-  onInput?: any;
-  onFocus?: any;
-  onBlur?: any;
-  ios?: any;
-  material?: any;
+  // placeholder?: any;
+  // inputId?: any;
+  // inputStyle?: any;
+  clearButton?: boolean;
+  // onInput?: any;
+  // onFocus?: any;
+  // onBlur?: any;
+  ios?: boolean;
+  material?: boolean;
+  renderInput(a: {
+    className: string
+    onFocus(): void
+  }): HTMLInputElement
 }) {
   const {
     render = renderDomDefault,
-    className,
+    renderInput,
+
     colors: colorsProp,
 
-    placeholder = 'Search',
-    value,
-    inputId,
-    inputStyle,
+    hasValue,
 
     disableButton = false,
     disableButtonText = 'Cancel',
     clearButton = true,
 
-    onInput,
-    onFocus,
-    onBlur,
     onClear,
     onDisable,
 
@@ -76,21 +75,8 @@ export function renderSearchbar(props: {
 
   const colors = SearchbarColors(colorsProp, dark);
 
-  const handleInput = (e) => {
-    if (onInput) onInput(e);
-  };
-
-  const handleFocus = (e) => {
-    setIsEnabled(true);
-    if (onFocus) onFocus(e);
-  };
-
-  const handleBlur = (e) => {
-    if (onBlur) onBlur(e);
-  };
-
   const onGlobalBlur = () => {
-    if (!value) {
+    if (!hasValue) {
       disableTimeout.current = setTimeout(() => {
         setIsEnabled(false);
       });
@@ -100,14 +86,14 @@ export function renderSearchbar(props: {
     clearTimeout(disableTimeout.current);
   };
 
-  const handleDisableButton = (e) => {
+  const handleDisableButton = (e: Event) => {
     e.preventDefault();
     setIsEnabled(false);
     if (searchElRef.current) {
       searchElRef.current.blur();
     }
-    if (onDisable) onDisable();
-    if (onClear) onClear();
+    onDisable?.();
+    onClear?.();
   };
 
   useEffect(() => {
@@ -147,23 +133,14 @@ export function renderSearchbar(props: {
                 className: c.searchIcon,
               });
             });
-          const input = dom
-            .input({
-              id: inputId,
-              className: cls(c.input),
-              style: inputStyle,
-              type: 'text',
-              name: 'search',
-              placeholder,
-              value,
-              onInput: handleInput,
-              onFocus: handleFocus,
-              onBlur: handleBlur,
-            } as any)
-            .render();
-          console.log('dv', value);
+          const input = renderInput({
+            className: c.input,
+            onFocus() {
+              setIsEnabled(true);
+            }
+          })
           searchElRef.current = input;
-          renderIf(value && clearButton, () => {
+          renderIf(hasValue && clearButton, () => {
             dom
               .button({
                 className: c.clearButton,

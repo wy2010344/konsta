@@ -71,19 +71,18 @@ export function renderRadio(props: {
       .input({
         type: 'radio',
         name,
-        // value,
         disabled,
         readOnly,
-        // checked,
-        // defaultChecked,
         onChange,
         className: c.input,
       })
       .render();
-
     useEffect(() => {
       check.checked = checked!
     }, checked)
+    useEffect(() => {
+      check.value = value || ""
+    }, value)
     dom
       .i({
         className: c.iconWrap[state],

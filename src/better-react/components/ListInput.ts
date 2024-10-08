@@ -10,8 +10,8 @@ import { ListInputClasses } from '../../shared/classes/ListInputClasses.js';
 import { ListInputColors } from '../../shared/colors/ListInputColors.js';
 import { renderIf, useRef, useState } from 'better-react-helper';
 import { dom, renderFunOrText } from 'better-react-dom';
+import { GetValue } from 'wy-helper';
 export function renderListInput(props: {
-  className?: any;
   colors?: any;
   label?: any;
   floatingLabel?: any;
@@ -24,45 +24,24 @@ export function renderListInput(props: {
   error?: any;
   clearButton?: any;
   dropdown?: any;
-  inputId?: any;
-  inputStyle?: any;
   inputClassName?: string;
   name?: any;
-  value?: any;
-  defaultValue?: any;
-  type?: string;
-  inputMode?: any;
-  readOnly?: any;
-  required?: any;
-  disabled?: any;
-  placeholder?: any;
-  size?: any;
-  accept?: any;
-  autoComplete?: any;
-  autoCorrect?: any;
-  autoCapitalize?: any;
-  spellCheck?: any;
-  autoFocus?: any;
-  autoSave?: any;
-  max?: any;
-  min?: any;
-  step?: any;
-  maxLength?: any;
-  minLength?: any;
-  multiple?: any;
-  pattern?: any;
-  tabIndex?: any;
-  onInput?: any;
-  onChange?: any;
-  onFocus?: any;
-  onBlur?: any;
   onClear?: any;
   ios?: any;
   material?: any;
   children?: any;
+  /**
+   * 通过是否有值,控制浮动label的展示
+   */
+  hasValue?: boolean
+  renderInput(arg: {
+    className: string
+    onFocus(): void
+    onBlur(): void
+  }): void
 }) {
   const {
-    className,
+    // className,
     colors: colorsProp,
 
     label,
@@ -71,55 +50,23 @@ export function renderListInput(props: {
     outlineIos,
     outlineMaterial,
     media,
-    input, // for custom input
     info, // string
     error, // string or bool
     clearButton,
     dropdown,
-
-    // input props
-    inputId,
-    inputStyle,
     inputClassName = '',
 
-    name,
-    value,
-    type = 'text',
-    inputMode,
-    readOnly,
-    required,
-    disabled,
-    placeholder,
-    size,
-    accept,
-    autoComplete,
-    autoCorrect,
-    autoCapitalize,
-    spellCheck,
-    autoFocus,
-    autoSave,
-    max,
-    min,
-    step,
-    maxLength,
-    minLength,
-    multiple,
-    pattern,
-    tabIndex,
-
-    onInput,
-    onChange,
-    onFocus,
-    onBlur,
     onClear,
 
     ios,
     material,
 
     children,
+
+    hasValue,
+    renderInput
   } = props;
 
-  const inputElRef = useRef<HTMLInputElement | null>(null);
 
   const [isFocused, setIsFocused] = useState(false);
 
@@ -133,19 +80,9 @@ export function renderListInput(props: {
   const labelStyleIsFloating =
     labelStyle === 'floating' ? 'floating' : 'notFloating';
 
-  const getDomValue = () => {
-    if (!inputElRef.current) return undefined;
-    return inputElRef.current.value;
-  };
 
-  const isInputHasValue = () => {
-    const domValue = getDomValue();
-    return typeof value === 'undefined'
-      ? domValue || domValue === '0'
-      : value || value === 0;
-  };
   const isFloatingTransformed =
-    label && floatingLabel && !isInputHasValue() && !isFocused;
+    label && floatingLabel && !hasValue && !isFocused;
 
   const getLabelColor = () => {
     if (error) return colors.errorText;
@@ -159,15 +96,6 @@ export function renderListInput(props: {
     }
 
     return '';
-  };
-
-  const onFocusInternal = (e) => {
-    setIsFocused(true);
-    if (onFocus) onFocus(e);
-  };
-  const onBlurInternal = (e) => {
-    setIsFocused(false);
-    if (onBlur) onBlur(e);
   };
 
   const isOutline =
@@ -194,49 +122,6 @@ export function renderListInput(props: {
       }
     )
   );
-  const createInput = () => {
-    if (input) return input;
-    const InputComponent =
-      type === 'select' || type === 'textarea' ? type : 'input';
-    const needsType = InputComponent === 'input';
-    inputElRef.current = dom[InputComponent as any]({
-      id: inputId,
-      className: c.input[labelStyleIsFloating],
-      style: inputStyle,
-      name: name,
-      type: needsType ? type : undefined,
-      placeholder: placeholder,
-      inputMode: inputMode,
-      size: size,
-      accept: accept,
-      autoComplete: autoComplete,
-      autoCorrect: autoCorrect,
-      autoCapitalize: autoCapitalize,
-      spellCheck: spellCheck,
-      autoFocus: autoFocus,
-      autoSave: autoSave,
-      disabled: disabled,
-      max: max,
-      maxLength: maxLength,
-      min: min,
-      minLength: minLength,
-      step: step,
-      multiple: multiple,
-      readOnly: readOnly,
-      required: required,
-      pattern: pattern,
-      tabIndex: tabIndex,
-      value: value,
-      onInput: onInput,
-      onChange: onChange,
-      onFocus: onFocusInternal,
-      onBlur: onBlurInternal,
-    }).render(() => {
-      if (type == 'select') {
-        renderFunOrText(children);
-      }
-    });
-  };
 
   return renderListItem({
     media,
@@ -265,7 +150,15 @@ export function renderListInput(props: {
           className: c.inputWrap[labelStyle],
         })
         .render(() => {
-          createInput();
+          renderInput({
+            className: c.input[labelStyleIsFloating],
+            onFocus() {
+              setIsFocused(true)
+            },
+            onBlur() {
+              setIsFocused(false)
+            },
+          })
           renderIf(clearButton, () => {
             DeleteIcon({
               theme,
@@ -279,20 +172,21 @@ export function renderListInput(props: {
             });
           }
         });
-      if (error && error !== true) {
+      renderIf(error && error !== true, () => {
         dom
           .div({
             className: cls(c.errorInfo, c.error),
           })
           .renderOrText(error);
-      }
-      if (info && !error) {
+      })
+
+      renderIf(info && !error, () => {
         dom
           .div({
             className: cls(c.errorInfo, c.info),
           })
           .renderOrText(info);
-      }
+      })
     },
     contentChildren() {
       if (isOutline || theme == 'material') {
@@ -300,10 +194,6 @@ export function renderListInput(props: {
       }
     },
     dividers: theme === 'material' || isOutline ? false : undefined,
-    children() {
-      if (type != 'select') {
-        renderFunOrText(children);
-      }
-    },
+    children
   });
 }

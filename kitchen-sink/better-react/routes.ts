@@ -59,5 +59,11 @@ export const componentsRoutes: {
       getPage() {
         return import('./pages/Searchbar')
       },
+    },
+    {
+      href: "Radio",
+      getPage() {
+        return import('./pages/Radio')
+      },
     }
   ]

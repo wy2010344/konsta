@@ -36,9 +36,9 @@
       "svelte": "./svelte/konsta-svelte.js"
     },
     "./better-react": {
-      "types": "./svelte/konsta-better-react.d.ts",
-      "import": "./svelte/konsta-better-react.js",
-      "svelte": "./svelte/konsta-better-react.js"
+      "types": "./better-react/types/konsta-better-react.d.ts",
+      "import": "./better-react/esm/konsta-better-react.js",
+      "require": "./better-react/cjs/konsta-better-react.js"
     },
     "./config": "./config.js",
     "./config.js": "./config.js"

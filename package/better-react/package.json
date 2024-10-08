@@ -4,11 +4,11 @@
   "main": "./cjs/konsta-better-react.js",
   "jsnext:main": "./esm/konsta-better-react.js",
   "module": "./esm/konsta-better-react.js",
-  "types": "./konsta-better-react.d.ts",
+  "types": "./types/konsta-better-react.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "types": "./konsta-better-react.d.ts",
+      "types": "./types/konsta-better-react.d.ts",
       "import": "./esm/konsta-better-react.js",
       "require": "./cjs/konsta-better-react.js"
     }

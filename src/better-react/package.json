@@ -1,6 +1,6 @@
 {
   "name": "konsta/better-react",
   "private": true,
-  "jsnext:main": "./konsta-better-react.js",
-  "module": "./konsta-better-react.js"
+  "jsnext:main": "./konsta-better-react.ts",
+  "module": "./konsta-better-react.ts"
 }

@@ -32,8 +32,11 @@
   "devDependencies": {
     "@babel/cli": "^7.24.8",
     "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-runtime": "^7.25.7",
+    "@babel/plugin-transform-typescript": "^7.25.7",
     "@babel/preset-env": "^7.25.3",
     "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.25.7",
     "@material/material-color-utilities": "^0.2.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@sveltejs/vite-plugin-svelte": "^4.0.0-next.6",
@@ -41,6 +44,11 @@
     "@vitejs/plugin-vue": "^5.1.2",
     "@vue/compiler-sfc": "^3.4.38",
     "autoprefixer": "^10.4.14",
+    "better-react": "file:.yalc/better-react",
+    "better-react-dom": "file:.yalc/better-react-dom",
+    "better-react-dom-helper": "file:.yalc/better-react-dom-helper",
+    "better-react-helper": "file:.yalc/better-react-helper",
+    "better-react-icons": "file:.yalc/better-react-icons",
     "conventional-changelog-cli": "^2.2.2",
     "cross-env": "^7.0.3",
     "eslint": "^8.38.0",
@@ -57,6 +65,7 @@
     "fs-extra": "^10.0.1",
     "history": "^5.3.0",
     "inquirer": "^8.2.2",
+    "motion": "^10.18.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.41",
     "prettier": "^3.3.3",
@@ -71,14 +80,8 @@
     "vite": "^5.4.2",
     "vue": "^3.4.38",
     "vue-router": "^4.4.3",
-    "better-react": "file:.yalc/better-react",
-    "better-react-dom": "file:.yalc/better-react-dom",
-    "better-react-dom-helper": "file:.yalc/better-react-dom-helper",
-    "better-react-helper": "file:.yalc/better-react-helper",
-    "better-react-icons": "file:.yalc/better-react-icons",
     "wy-dom-helper": "file:.yalc/wy-dom-helper",
-    "wy-helper": "file:.yalc/wy-helper",
-    "motion": "^10.18.0"
+    "wy-helper": "file:.yalc/wy-helper"
   },
   "dependencies": {
     "konsta": "file:src"
