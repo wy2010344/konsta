@@ -140,7 +140,7 @@ export function renderListItem(props: ListItemProps) {
       : menuListItem
         ? 'menuListItemText'
         : 'text'
-    }${theme === 'ios' ? 'Ios' : 'Material'}`
+    }${theme === 'ios' ? 'Ios' : 'Material'}` as 'menuListItemTextIos'
     ];
 
   const isLink = type == 'link' || menuListItem;

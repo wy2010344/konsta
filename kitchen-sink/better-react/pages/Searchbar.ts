@@ -63,11 +63,10 @@ export default function () {
           disableButton: true,
           disableButtonText: "Cancel",
           onDisable: handleDisable,
-          hasValue: searchQuery,
+          value: searchQuery,
           renderInput(a) {
             return renderInput("input", {
               ...a,
-              value: searchQuery,
               onValueChange(v) {
                 setSearchQuery(v)
               },

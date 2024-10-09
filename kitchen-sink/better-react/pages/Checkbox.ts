@@ -2,6 +2,7 @@ import { useState } from "better-react-helper";
 import { renderPage } from "../util";
 import { renderCheckbox, renderList, renderListItem, renderNavbar, renderNavbarBackLink, useBlock, useBlockTitle } from "konsta/better-react";
 import { dom, renderText } from "better-react-dom";
+import { InputBoolProps, renderInputBool } from "better-react-dom-helper";
 
 
 
@@ -24,7 +25,6 @@ export default function () {
   const [movies, setMovies] = useState(['Movie 1']);
   const onMovieChange = (e) => {
     const value = e.target.value;
-    console.log("dd", value)
     if (e.target.checked) {
       movies.push(value);
     } else {
@@ -77,20 +77,29 @@ export default function () {
 
         renderText`Lorem `
         renderCheckbox({
-          name: "checkbox-1",
           checked: checked1,
-          onInput(e) {
-            setChecked1(e.target.checked)
+          renderCheck(props) {
+            const c = props as InputBoolProps
+            c.name = "checkbox-1"
+            c.onInput = e => {
+              setChecked1(e.currentTarget.checked)
+            }
+            return renderInputBool(c)
           },
         })
         renderText`ipsum dolor sit amet, consectetur adipisicing elit. Alias beatae illo
 nihil aut eius commodi sint eveniet aliquid eligendi`
         renderCheckbox({
-          name: "checkbox-2",
           checked: checked2,
-          onInput(e) {
-            setChecked2(e.target.checked)
-          },
+          renderCheck(props) {
+            const c = props as InputBoolProps
+            c.name = "checkbox-2"
+
+            c.onInput = e => {
+              setChecked2(e.currentTarget.checked)
+            }
+            return renderInputBool(c)
+          }
         })
         renderText`  ad delectus impedit tempore nemo, enim vel praesentium consequatur
 nulla mollitia!  `
@@ -111,9 +120,13 @@ nulla mollitia!  `
           media() {
             renderCheckbox({
               checked: group.includes("Books"),
-              onInput() {
-                toggleGroupValue("Books")
-              },
+              renderCheck(props) {
+                const c = props as InputBoolProps
+                c.onInput = e => {
+                  toggleGroupValue("Books")
+                }
+                return renderInputBool(c)
+              }
             })
           }
         })
@@ -124,9 +137,13 @@ nulla mollitia!  `
           media() {
             renderCheckbox({
               checked: group.includes("Movies"),
-              onInput() {
-                toggleGroupValue("Movies")
-              },
+              renderCheck(props) {
+                const c = props as InputBoolProps
+                c.onInput = e => {
+                  toggleGroupValue("Movies")
+                }
+                return renderInputBool(c)
+              }
             })
           }
         })
@@ -138,9 +155,13 @@ nulla mollitia!  `
           media() {
             renderCheckbox({
               checked: group.includes("Food"),
-              onInput() {
-                toggleGroupValue("Food")
-              },
+              renderCheck(props) {
+                const c = props as InputBoolProps
+                c.onInput = e => {
+                  toggleGroupValue("Food")
+                }
+                return renderInputBool(c)
+              }
             })
           }
         })
@@ -151,9 +172,13 @@ nulla mollitia!  `
           media() {
             renderCheckbox({
               checked: group.includes("Drinks"),
-              onInput() {
-                toggleGroupValue("Drinks")
-              },
+              renderCheck(props) {
+                const c = props as InputBoolProps
+                c.onInput = e => {
+                  toggleGroupValue("Drinks")
+                }
+                return renderInputBool(c)
+              }
             })
           }
         })
@@ -176,7 +201,11 @@ nulla mollitia!  `
             renderCheckbox({
               checked: movies.length == 2,
               indeterminate: movies.length == 1,
-              onInput: onMoviesChange
+              renderCheck(props) {
+                const c = props as InputBoolProps
+                c.onInput = onMoviesChange
+                return renderInputBool(c)
+              }
             })
           },
           children() {
@@ -189,10 +218,14 @@ nulla mollitia!  `
                 title: "Movie 1",
                 media() {
                   renderCheckbox({
-                    name: "demo-checkbox",
-                    value: "Movie 1",
-                    checked: movies.indexOf("Movie 1") > -1,
-                    onInput: onMovieChange,
+                    renderCheck(props) {
+                      const c = props as InputBoolProps
+                      c.name = "demo-checkbox"
+                      c.value = "Movie 1"
+                      c.onInput = onMovieChange
+                      return renderInputBool(c)
+                    },
+                    checked: movies.indexOf("Movie 1") > -1
                   })
                 }
               })
@@ -202,10 +235,14 @@ nulla mollitia!  `
                 title: "Movie 2",
                 media() {
                   renderCheckbox({
-                    name: "demo-checkbox",
-                    value: "Movie 2",
-                    checked: movies.indexOf("Movie 2") > -1,
-                    onInput: onMovieChange,
+                    renderCheck(props) {
+                      const c = props as InputBoolProps
+                      c.name = "demo-checkbox"
+                      c.value = "Movie 2"
+                      c.onInput = onMovieChange
+                      return renderInputBool(c)
+                    },
+                    checked: movies.indexOf("Movie 2") > -1
                   })
                 }
               })
@@ -232,10 +269,14 @@ nulla mollitia!  `
           text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.",
           media() {
             renderCheckbox({
-              name: "demo-media-checkbox",
               checked: media.includes('Item 1'),
-              onInput(e) {
-                toggleMediaValue('Item 1')
+              renderCheck(props) {
+                const c = props as InputBoolProps
+                c.name = "demo-media-checkbox"
+                c.onInput = () => {
+                  toggleMediaValue('Item 1')
+                }
+                return renderInputBool(c)
               },
             })
           }
@@ -250,10 +291,14 @@ nulla mollitia!  `
           text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.",
           media() {
             renderCheckbox({
-              name: "demo-media-checkbox",
               checked: media.includes('Item 2'),
-              onInput(e) {
-                toggleMediaValue('Item 2')
+              renderCheck(props) {
+                const c = props as InputBoolProps
+                c.name = "demo-media-checkbox"
+                c.onInput = () => {
+                  toggleMediaValue('Item 2')
+                }
+                return renderInputBool(c)
               },
             })
           }

@@ -12,6 +12,7 @@ import CheckboxIcon from './icons/CheckboxIcon.js';
 import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { dom, renderFunOrText, TextOrFunNode } from 'better-react-dom';
 import { renderIf, useEffect, useRef } from 'better-react-helper';
+import { renderInput, renderInputBool } from 'better-react-dom-helper';
 
 export function renderCheckbox(props: {
   render?: RenderCache<'label'>;
@@ -24,11 +25,11 @@ export function renderCheckbox(props: {
   indeterminate?: boolean;
 
   checked?: boolean;
-  name?: string;
-  value?: string;
-  disabled?: boolean;
-  readOnly?: boolean;
-  onInput?(e: Event): void;
+  renderCheck(props: {
+    type: "checkbox",
+    className: string
+    checked?: boolean
+  }): HTMLInputElement
 }) {
   const {
     render = renderDomDefault,
@@ -36,18 +37,13 @@ export function renderCheckbox(props: {
     colors: colorsProp,
     indeterminate,
     checked,
-    name,
-    value,
-    disabled,
-    readOnly,
-    onInput,
+    renderCheck,
 
     ios,
     material,
 
     touchRipple = true,
 
-    // Children
     children,
   } = props;
   const inputElRef = useRef<HTMLInputElement | null>(null);
@@ -56,7 +52,7 @@ export function renderCheckbox(props: {
   const dark = useDarkClasses();
   const colors = CheckboxColors(colorsProp, dark);
 
-  const state = checked || !onInput || indeterminate ? 'checked' : 'notChecked';
+  const state = checked || indeterminate ? 'checked' : 'notChecked';
 
   const c = themeClasses(
     CheckboxClasses(props, colors, className, dark),
@@ -75,21 +71,11 @@ export function renderCheckbox(props: {
       className: c.base,
     },
     () => {
-      const el = dom
-        .input({
-          type: 'checkbox',
-          name,
-          disabled,
-          readOnly,
-          value,
-          onInput: onInput as any,
-          className: c.input,
-        } as any)
-        .render();
-      useEffect(() => {
-        el.checked = !!checked;
-      }, !checked);
-      inputElRef.current = el;
+      inputElRef.current = renderCheck({
+        type: "checkbox",
+        className: c.input,
+        checked
+      });
       dom
         .i({
           className: c.iconWrap[state],

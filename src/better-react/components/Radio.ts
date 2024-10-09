@@ -15,13 +15,13 @@ export function renderRadio(props: {
   className?: string;
   colors?: Record<string, any>;
 
-  defaultChecked?: boolean;
+
   checked?: boolean;
-  name?: string;
-  value?: string;
-  disabled?: boolean;
-  readOnly?: boolean;
-  onChange?: EmptyFun;
+  renderRadio(props: {
+    type: "radio",
+    className: string
+    checked?: boolean
+  }): void
 
   ios?: boolean;
   material?: boolean;
@@ -35,13 +35,9 @@ export function renderRadio(props: {
     className,
     colors: colorsProp,
 
-    defaultChecked,
+    renderRadio,
+
     checked,
-    name,
-    value,
-    disabled,
-    readOnly,
-    onChange,
 
     ios,
     material,
@@ -58,8 +54,7 @@ export function renderRadio(props: {
 
   const colors = RadioColors(colorsProp, dark);
 
-  const state =
-    checked || (defaultChecked && !onChange) ? 'checked' : 'notChecked';
+  const state = checked ? 'checked' : 'notChecked';
 
   const c = themeClasses(
     RadioClasses(props, colors, className, dark),
@@ -67,22 +62,11 @@ export function renderRadio(props: {
   );
 
   const el = renderOut("label", { className: c.base }, () => {
-    const check = dom
-      .input({
-        type: 'radio',
-        name,
-        disabled,
-        readOnly,
-        onChange,
-        className: c.input,
-      })
-      .render();
-    useEffect(() => {
-      check.checked = checked!
-    }, checked)
-    useEffect(() => {
-      check.value = value || ""
-    }, value)
+    renderRadio({
+      type: "radio",
+      className: c.input,
+      checked
+    })
     dom
       .i({
         className: c.iconWrap[state],

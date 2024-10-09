@@ -12,35 +12,28 @@ export function renderToggle(props: {
   className?: string;
   colors?: Record<string, any>;
   checked?: boolean;
-  name?: any;
-  value?: any;
-  disabled?: boolean;
-  readOnly?: boolean;
-  onChange: any;
+  renderCheck(props: {
+    type: "checkbox",
+    className: string
+    checked?: boolean
+  }): void
+
   touchRipple?: true | undefined;
   ios?: boolean;
   material?: boolean;
   children?: TextOrFunNode;
-  defaultChecked?: boolean;
 }) {
   const {
     render: renderOut = renderDomDefault,
     className,
     colors: colorsProp,
-
-    defaultChecked,
     checked,
-    name,
-    value,
-    disabled,
-    readOnly,
-    onChange,
+    renderCheck,
     touchRipple = true,
 
     ios,
     material,
 
-    // Children
     children
   } = props;
 
@@ -52,7 +45,7 @@ export function renderToggle(props: {
   const colors = ToggleColors(colorsProp, dark);
 
   const state =
-    checked || (defaultChecked && !onChange) ? 'checked' : 'notChecked';
+    checked ? 'checked' : 'notChecked';
 
   const c = themeClasses(
     ToggleClasses(props, colors, className, dark),
@@ -65,22 +58,11 @@ export function renderToggle(props: {
       className: c.base[state],
     },
     () => {
-      const check = dom
-        .input({
-          type: 'checkbox',
-          name,
-          // value,
-          disabled,
-          readOnly,
-          // checked,
-          // defaultChecked,
-          onChange,
-          className: c.input,
-        })
-        .render();
-      useEffect(() => {
-        check.checked = checked!;
-      }, checked);
+      renderCheck({
+        type: "checkbox",
+        className: c.input,
+        checked
+      })
       dom.span({ className: c.inner[state] }).render();
       rippleTargetElRef.current = dom
         .span({ className: c.thumbWrap[state] })

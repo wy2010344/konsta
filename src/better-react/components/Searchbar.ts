@@ -10,7 +10,6 @@ import SearchIcon from './icons/SearchIcon.js';
 import BackIcon from './icons/BackIcon.js';
 import { RenderCache, renderDomDefault } from '../konsta-better-react.js';
 import { dom } from 'better-react-dom';
-import { renderInput } from 'better-react-dom-helper';
 import {
   renderIf,
   renderOne,
@@ -20,27 +19,20 @@ import {
 } from 'better-react-helper';
 
 export function renderSearchbar(props: {
-  // oninput?: (e: any) => void;
-  hasValue?: any;
+  value?: string;
   onClear?(): void;
   disableButton?: boolean;
   disableButtonText?: string;
   onDisable?(): void;
   render?: RenderCache<"div">;
-  // className?: any;
   colors?: any;
-  // placeholder?: any;
-  // inputId?: any;
-  // inputStyle?: any;
   clearButton?: boolean;
-  // onInput?: any;
-  // onFocus?: any;
-  // onBlur?: any;
   ios?: boolean;
   material?: boolean;
   renderInput(a: {
     className: string
     onFocus(): void
+    value?: string
   }): HTMLInputElement
 }) {
   const {
@@ -49,7 +41,7 @@ export function renderSearchbar(props: {
 
     colors: colorsProp,
 
-    hasValue,
+    value,
 
     disableButton = false,
     disableButtonText = 'Cancel',
@@ -76,7 +68,7 @@ export function renderSearchbar(props: {
   const colors = SearchbarColors(colorsProp, dark);
 
   const onGlobalBlur = () => {
-    if (!hasValue) {
+    if (!value) {
       disableTimeout.current = setTimeout(() => {
         setIsEnabled(false);
       });
@@ -137,10 +129,11 @@ export function renderSearchbar(props: {
             className: c.input,
             onFocus() {
               setIsEnabled(true);
-            }
+            },
+            value
           })
           searchElRef.current = input;
-          renderIf(hasValue && clearButton, () => {
+          renderIf(value && clearButton, () => {
             dom
               .button({
                 className: c.clearButton,

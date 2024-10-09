@@ -59,13 +59,11 @@ export default function renderApp() {
     }, pathNodes)
 
     const { action } = GlobalContext.useConsumer()
-
     renderExitAnimateArray(
       useExitAnimate([arg], v => v.key, {
         mode: action == Action.Pop ? 'pop' : 'shift',
       }),
       row => {
-
         PageContext.useProvider(row)
         row.value.render()
       }

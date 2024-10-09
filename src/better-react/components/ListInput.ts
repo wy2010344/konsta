@@ -33,11 +33,12 @@ export function renderListInput(props: {
   /**
    * 通过是否有值,控制浮动label的展示
    */
-  hasValue?: boolean
+  value?: string
   renderInput(arg: {
     className: string
     onFocus(): void
     onBlur(): void
+    value?: string
   }): void
 }) {
   const {
@@ -63,7 +64,7 @@ export function renderListInput(props: {
 
     children,
 
-    hasValue,
+    value,
     renderInput
   } = props;
 
@@ -82,7 +83,7 @@ export function renderListInput(props: {
 
 
   const isFloatingTransformed =
-    label && floatingLabel && !hasValue && !isFocused;
+    label && floatingLabel && !value && !isFocused;
 
   const getLabelColor = () => {
     if (error) return colors.errorText;
@@ -158,6 +159,7 @@ export function renderListInput(props: {
             onBlur() {
               setIsFocused(false)
             },
+            value
           })
           renderIf(clearButton, () => {
             DeleteIcon({

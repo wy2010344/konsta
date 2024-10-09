@@ -3,7 +3,7 @@ import { dom } from "better-react-dom";
 import { useChange, useEffect } from "better-react-helper";
 import { getADomDefault, renderDomDefault, renderLink, renderList, renderListItem, renderNavbar, renderPopover, renderRadio, renderToggle, useBlockTitle, usePage } from "konsta/better-react";
 import { renderPage, ThemeContext } from "../util";
-import { RouterContext } from "better-react-dom-helper";
+import { InputBoolProps, renderInput, renderInputBool, RouterContext } from "better-react-dom-helper";
 import renderDemoIcon from "../components/renderDemoIcon";
 import { componentsRoutes } from "../routes";
 
@@ -50,10 +50,14 @@ export default function Home() {
           title: "iOS Theme",
           media() {
             renderRadio({
-              onChange() {
-                setTheme("ios");
-              },
-              checked: theme == 'ios'
+              checked: theme == 'ios',
+              renderRadio(props) {
+                const c = props as InputBoolProps
+                c.onInput = e => {
+                  setTheme("ios");
+                }
+                return renderInputBool(c)
+              }
             })
           }
         })
@@ -62,8 +66,12 @@ export default function Home() {
           title: "Material Theme",
           media() {
             renderRadio({
-              onChange() {
-                setTheme("material");
+              renderRadio(props) {
+                const c = props as InputBoolProps
+                c.onInput = e => {
+                  setTheme("material");
+                }
+                return renderInputBool(c)
               },
               checked: theme == 'material'
             })
@@ -81,8 +89,12 @@ export default function Home() {
           type: "label",
           after() {
             renderToggle({
-              onChange: toggleDarkMode,
-              checked: darkMode
+              checked: darkMode,
+              renderCheck(props) {
+                const c = props as InputBoolProps
+                c.onInput = toggleDarkMode
+                return renderInputBool(c)
+              },
             })
           }
         })
